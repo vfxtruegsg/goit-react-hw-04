@@ -1,0 +1,7 @@
+.user-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  margin-bottom: 64px;
+}
