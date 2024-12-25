@@ -6,8 +6,12 @@ import ImageGallery from "./components/ImageGallery/ImageGallery";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import Loader from "./components/Loader/Loader";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
+// import ImageModal from "./components/ImageModal/ImageModal";
 
+import Modal from "react-modal";
 import toast from "react-hot-toast";
+
+Modal.setAppElement("#root");
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -57,6 +61,7 @@ function App() {
       <SerchBar onSubmit={handleNewQuery} />
       {loading && <Loader />}
       {error ? <ErrorMessage /> : <ImageGallery articles={articles} />}
+
       {articles.length > 0 && <LoadMoreBtn click={handleUpPage} />}
     </>
   );
