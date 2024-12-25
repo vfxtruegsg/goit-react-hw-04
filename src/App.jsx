@@ -6,12 +6,9 @@ import ImageGallery from "./components/ImageGallery/ImageGallery";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
 import Loader from "./components/Loader/Loader";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
-// import ImageModal from "./components/ImageModal/ImageModal";
+import ImageModal from "./components/ImageModal/ImageModal";
 
-import Modal from "react-modal";
 import toast from "react-hot-toast";
-
-Modal.setAppElement("#root");
 
 function App() {
   const [articles, setArticles] = useState([]);
@@ -19,6 +16,8 @@ function App() {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
     const getArticlesData = async () => {
@@ -56,12 +55,30 @@ function App() {
     setPage(page + 1);
   };
 
+  const openModal = (image) => {
+    setIsOpen(true);
+    setSelectedImage(image);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+    setSelectedImage(null);
+  };
+
   return (
     <>
       <SerchBar onSubmit={handleNewQuery} />
       {loading && <Loader />}
-      {error ? <ErrorMessage /> : <ImageGallery articles={articles} />}
-
+      {error ? (
+        <ErrorMessage />
+      ) : (
+        <ImageGallery articles={articles} onImageClick={openModal} />
+      )}
+      <ImageModal
+        isOpen={modalIsOpen}
+        onClose={closeModal}
+        image={selectedImage}
+      />
       {articles.length > 0 && <LoadMoreBtn click={handleUpPage} />}
     </>
   );
