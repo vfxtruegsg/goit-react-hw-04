@@ -1,25 +1,22 @@
 import Modal from "react-modal";
 import { useEffect } from "react";
 Modal.setAppElement("#root");
-
-// const ImageModal = ({ isOpen, image, onClose }) => {
-//   return <Modal></Modal>;
-// };
+import css from "./ImageModal.module.css";
 
 const ImageModal = ({ isOpen, onClose, image }) => {
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDownClose = (e) => {
       if (e.key === "Escape") {
         onClose();
       }
     };
 
     if (isOpen) {
-      window.addEventListener("keydown", handleKeyDown);
+      window.addEventListener("keydown", handleKeyDownClose);
     }
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDownClose);
     };
   }, [isOpen, onClose]);
 
@@ -33,10 +30,17 @@ const ImageModal = ({ isOpen, onClose, image }) => {
     <Modal
       isOpen={isOpen}
       onRequestClose={onClose}
+      overlayClassName={css["overlay"]}
       shouldCloseOnOverlayClick={true}
+      className={css["modal"]}
     >
-      <div onClick={handleOverlayClick}>
-        <img src={image} />
+      <div onClick={handleOverlayClick} className={css["inf-container"]}>
+        <img
+          className={css["modal-img"]}
+          src={image ? image.modalImg : {}}
+          alt={image ? image.altDescr : {}}
+        />
+        <p style={{ textAlign: "center" }}>{image ? image.altDescr : ""}</p>
       </div>
     </Modal>
   );
