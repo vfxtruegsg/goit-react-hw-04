@@ -5,16 +5,14 @@ const ImageGallery = ({ articles, onImageClick }) => {
   return (
     <ul className={css["gallery-list"]}>
       {articles.map(({ alt_description, id, urls: { small, regular } }) => (
-        <li
-          key={id}
-          onClick={() =>
-            onImageClick({ modalImg: regular, altDescr: alt_description })
-          }
-        >
+        <li key={id}>
           <ImageCard
             small={small}
             regular={regular}
-            description={alt_description}
+            alt_description={alt_description}
+            onImageClick={() =>
+              onImageClick({ modalImg: regular, altDescr: alt_description })
+            }
           />
         </li>
       ))}
